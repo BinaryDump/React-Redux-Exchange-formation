@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { fetchCountries } from '../actions/index';
+import { fetchCountries, fetchRateExchange } from '../actions/index';
 import { connect } from 'react-redux';
-
+const lodash = require("lodash");
 
 class SearchBar extends Component {
 
@@ -23,6 +23,9 @@ class SearchBar extends Component {
     }
 
     onChangeCountry = e => {
+        const countryCode = e.target.value;
+        const country = lodash.find(this.props.countries,{code: countryCode})
+        this.props.fetchRateExchange(country);
         console.log("onchange",e.target.value);
     }
 
@@ -42,7 +45,8 @@ const mapStateToProps = (store) => {
 }
 
 const mapDispatchToProps = {
-    fetchCountries
+    fetchCountries,
+    fetchRateExchange
 }
 
 export default connect(mapStateToProps, mapDispatchToProps) (SearchBar)
